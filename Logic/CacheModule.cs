@@ -5,52 +5,74 @@ namespace Logic
 {
     public class CacheModule
     {
-        private Dictionary<int, string> Cache = new Dictionary<int, string>(); 
+        private Dictionary<Guid, object> Cache = new Dictionary<Guid, object>(); 
         private static CacheModule Instance = new CacheModule();
         private object WriteLock = new object();
-        private int keyGen = 1; 
-        
-        
+
+
         public static CacheModule GetInstance()
         {
             return Instance;
         }
         
-       ///  signaltone cache - only one instance of this
+       ///  signal tone cache - only one instance of this
         private CacheModule()
         {
 
         }
-        public int Create(string data)
+        public string Create(string data)
         {
+            if (data == null)
+            {
+                return null;
+            }
             lock(WriteLock)
             {
-                int key = keyGen;
+                Guid key = Guid.NewGuid();
                 
-                keyGen++;
                 Cache[key] = data;
 
-                return key;
+                return key.ToString();
             }
         }
 
-        public string Read(int key)
+        public string Read(string strKey)
         {
+            Guid key = Guid.Parse(strKey);
+            
             if (Cache.ContainsKey(key))
             {
-                return Cache[key];
+                object data = Cache[key];
+
+                return data.ToString();
             }
 
             return null;
+            
+            ///return Read(key);
+            
         }
-        
-        public bool Update(string newData, int key)
+
+        /*public string Read(Guid key)
+        {
+            if (Cache.ContainsKey(key))
+            {
+                object data = Cache[key];
+
+                return data.ToString();
+            }
+
+            return null;
+            
+        }*/
+
+        public bool Update(string newData, string strKey)
         {
             lock (WriteLock)
             {
-
-                string oldData = Read(key);
-                if (oldData != null)
+                Guid key = Guid.Parse(strKey);
+                
+                if (Cache.ContainsKey(key))
                 {
                     Cache[key] = newData;
                     return true;
@@ -61,12 +83,13 @@ namespace Logic
 
         }
 
-        public bool Delete(int key)
+        public bool Delete(string strKey)
         {
             lock (WriteLock)
             {
-                string data = Read(key);
-                if (data != null)
+                Guid key = Guid.Parse(strKey);
+               
+                if (Cache.ContainsKey(key))
                 {
                     Cache.Remove(key);
                     return true;

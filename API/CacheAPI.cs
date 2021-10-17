@@ -9,7 +9,7 @@ namespace API
         
         // GET
         [HttpGet("api/data/{key}")]
-        public ActionResult<string> Get(int key)
+        public ActionResult<string> Get(string key)
         {
             string res = cm.Read(key);
             if (res != null)
@@ -21,19 +21,20 @@ namespace API
         
         //Post
         [HttpPost("api/data")]
-        public ActionResult<int> Post(string data)
+        public ActionResult<string> Post(string data)
         {
-            int key = cm.Create(data);
+            string key = cm.Create(data);
             return key;
 
         }
         
-        //put
+        //Put
         [HttpPut("api/data/{key}")]
-        public ActionResult<int> Put(int key, string data)
+        public ActionResult<string> Put(string key, string data)
         {
             bool res = cm.Update(data, key);
-            if (res == true)
+            
+            if (res)
             {
                 return Accepted();  
             }
@@ -42,12 +43,13 @@ namespace API
 
         }
         
-        //delete
+        //Delete
         [HttpPut("api/data/{key}")]
-        public ActionResult<int> Delete(int key)
+        public ActionResult<int> Delete(string key)
         {
             bool res = cm.Delete(key);
-            if (res == true)
+            
+            if (res)
             {
                 return Accepted();  
             }
