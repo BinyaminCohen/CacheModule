@@ -1,0 +1,12 @@
+C:\Users\Lenovo\RiderProjects\Solution\Logic\bin\Debug\net5.0\Logic.deps.json
+C:\Users\Lenovo\RiderProjects\Solution\Logic\bin\Debug\net5.0\Logic.dll
+C:\Users\Lenovo\RiderProjects\Solution\Logic\bin\Debug\net5.0\ref\Logic.dll
+C:\Users\Lenovo\RiderProjects\Solution\Logic\bin\Debug\net5.0\Logic.pdb
+C:\Users\Lenovo\RiderProjects\Solution\Logic\obj\Debug\net5.0\Logic.csproj.AssemblyReference.cache
+C:\Users\Lenovo\RiderProjects\Solution\Logic\obj\Debug\net5.0\Logic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lenovo\RiderProjects\Solution\Logic\obj\Debug\net5.0\Logic.AssemblyInfoInputs.cache
+C:\Users\Lenovo\RiderProjects\Solution\Logic\obj\Debug\net5.0\Logic.AssemblyInfo.cs
+C:\Users\Lenovo\RiderProjects\Solution\Logic\obj\Debug\net5.0\Logic.csproj.CoreCompileInputs.cache
+C:\Users\Lenovo\RiderProjects\Solution\Logic\obj\Debug\net5.0\Logic.dll
+C:\Users\Lenovo\RiderProjects\Solution\Logic\obj\Debug\net5.0\ref\Logic.dll
+C:\Users\Lenovo\RiderProjects\Solution\Logic\obj\Debug\net5.0\Logic.pdb
