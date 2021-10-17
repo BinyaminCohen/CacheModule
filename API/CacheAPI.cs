@@ -9,34 +9,45 @@ namespace API
         
         // GET
         [HttpGet("api/data/{key}")]
-        public ActionResult<string> Get(string key)
+        public ActionResult<object> Get(string key)
         {
-            string res = cm.Read(key);
+            if (key == null)
+            {
+                return BadRequest();
+            }
+            object res = cm.Read(key);
+            
             if (res != null)
             {
-                return res;
+                return Ok(res);
             }
             return NotFound();
         }
         
         //Post
         [HttpPost("api/data")]
-        public ActionResult<string> Post(string data)
+        public ActionResult<object> Post(object data)
         {
             string key = cm.Create(data);
-            return key;
+            
+            return Created("api/data/" + key, (object)key);
 
         }
         
         //Put
         [HttpPut("api/data/{key}")]
-        public ActionResult<string> Put(string key, string data)
+        public ActionResult Put(string key, object data)
         {
-            bool res = cm.Update(data, key);
+            if (key == null)
+            {
+                return BadRequest();
+            }
+            
+            bool res = cm.Update(key, data);
             
             if (res)
             {
-                return Accepted();  
+                return NoContent();  
             }
 
             return NotFound();
@@ -45,13 +56,19 @@ namespace API
         
         //Delete
         [HttpPut("api/data/{key}")]
-        public ActionResult<int> Delete(string key)
+        public ActionResult Delete(string key)
         {
+            
+            if (key == null)
+            {
+                return BadRequest();
+            }
+            
             bool res = cm.Delete(key);
             
             if (res)
             {
-                return Accepted();  
+                return NoContent();  
             }
 
             return NotFound();

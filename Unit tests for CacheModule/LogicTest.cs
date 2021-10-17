@@ -1,35 +1,32 @@
 using Logic;
-using Microsoft.VisualBasic.FileIO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NUnit.Framework;
-using Assert = NUnit.Framework.Assert;
 
 [assembly: Parallelize(Workers = 4, Scope = ExecutionScope.MethodLevel)]
 
 namespace Unit_tests_for_logic
 {
-    
+    [TestClass]
     public class Tests
     {
         private CacheModule cm;
         
         
-        [SetUp]
+        [TestInitialize]
         public void Setup()
         {
             cm = CacheModule.GetInstance();
         }
        
-        [Test]
+        [TestMethod]
         public void CrateAndReadTest()
         {
             string key = cm.Create("{\"id\":12}");
             string key1 = cm.Create("aaa");
             string key2 = cm.Create("aaa");
 
-            string data = cm.Read(key);
-            string data1 = cm.Read(key1);
-            string data2 = cm.Read(key2);
+            object data = cm.Read(key);
+            object data1 = cm.Read(key1);
+            object data2 = cm.Read(key2);
             
             
             Assert.AreEqual("{\"id\":12}",data);
@@ -40,7 +37,7 @@ namespace Unit_tests_for_logic
             
         }
         
-        [Test]
+        [TestMethod]
         public void CrateAndReadTest1()
         {
             string key = cm.Create("{\"id\":13}");
@@ -49,9 +46,10 @@ namespace Unit_tests_for_logic
             string key3 = cm.Create(null);
             
 
-            string data = cm.Read(key);
-            string data1 = cm.Read(key1);
-            string data2 = cm.Read(key2);
+            object data = cm.Read(key);
+            object data1 = cm.Read(key1);
+            object data2 = cm.Read(key2);
+            object data3 = cm.Read("123");
             
             
             Assert.AreEqual("{\"id\":13}",data);
@@ -60,11 +58,12 @@ namespace Unit_tests_for_logic
             Assert.AreNotEqual(key1,key);
             Assert.AreNotEqual(key1,key2);
             Assert.AreEqual(null,null);
+            Assert.AreEqual(null,data3);
             
             
         }
         
-        [Test]
+        [TestMethod]
         public void PutTest()
         {
             
@@ -72,13 +71,13 @@ namespace Unit_tests_for_logic
             string key1 = cm.Create("Omer");
             string key2 = cm.Create("Lior");
             
-             bool res = cm.Update("Ben",key);
-             bool res1 = cm.Update("Omry",key1);
-             bool res2 = cm.Update("Dan",key2);
+             bool res = cm.Update(key,"Ben");
+             bool res1 = cm.Update(key1,"Omry");
+             bool res2 = cm.Update(key2,"Dan");
              
-             string data = cm.Read(key);
-             string data1 = cm.Read(key1);
-             string data2 = cm.Read(key2);
+             object data = cm.Read(key);
+             object data1 = cm.Read(key1);
+             object data2 = cm.Read(key2);
              
              
              Assert.AreEqual("Ben", data);
@@ -86,7 +85,7 @@ namespace Unit_tests_for_logic
              Assert.AreEqual("Dan", data2);
             
         }
-        [Test]
+        [TestMethod]
         public void DeleteTest()
         {
             string key = cm.Create("{Binyamin}");
@@ -97,9 +96,9 @@ namespace Unit_tests_for_logic
             bool res1 = cm.Delete(key1);
             bool res2 = cm.Delete(key2);
              
-            string data = cm.Read(key);
-            string data1 = cm.Read(key1);
-            string data2 = cm.Read(key2);
+            object data = cm.Read(key);
+            object data1 = cm.Read(key1);
+            object data2 = cm.Read(key2);
              
              
             Assert.AreEqual(null, data);

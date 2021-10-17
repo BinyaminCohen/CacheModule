@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit tests for CacheModule", "Unit tests for CacheModule\Unit tests for CacheModule.csproj", "{CAB9B81A-E8CE-4E2B-A0A9-9FC6A82FB497}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit test for API", "Unit test for API\Unit test for API.csproj", "{F4892488-B2E5-42B7-BAF7-C967EF82D70D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit tests for API", "Unit tests for API\Unit tests for API.csproj", "{F4892488-B2E5-42B7-BAF7-C967EF82D70D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
