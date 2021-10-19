@@ -16,6 +16,11 @@ namespace API
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // services.AddControllers();
+            // services.AddSwaggerGen(c =>
+            // {
+            //     c.SwagerDoc("v1", new OpenApiInfo {Title = "httpApi", Version = "v1"})
+            // });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
