@@ -11,21 +11,21 @@ namespace Logic
         /// and solve Multi-trade problem. 
         /// </summary>
         private ConcurrentDictionary<Guid, object> Cache = new ConcurrentDictionary<Guid, object>();
+
         private static CacheModule Instance = new CacheModule();
-        
+
         /// <summary>
         /// Signal tone instance of this class to provide only one cache memory.
         /// </summary>
         private CacheModule()
         {
-            
         }
-        
+
         public static CacheModule GetInstance()
         {
             return Instance;
         }
-        
+
         /// <summary>
         /// The function receives any kind of data  and checks whether it is not null,
         /// If not the function generates a Guid key (to create a very large amount of keys for many objects),
@@ -34,7 +34,6 @@ namespace Logic
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        
         public string Create(object data)
         {
             if (data == null)
@@ -48,7 +47,7 @@ namespace Logic
 
             return key.ToString();
         }
-        
+
         /// <summary>
         /// The function read the data from the cache memory by his key.
         /// Converting the string key to Guid and try to find this specific key in the cache,
@@ -56,7 +55,6 @@ namespace Logic
         /// </summary>
         /// <param name="strKey"></param>
         /// <returns></returns>
-
         public object Read(string strKey)
         {
             Guid key = string2Guid(strKey);
@@ -70,7 +68,7 @@ namespace Logic
 
             return null;
         }
-        
+
         /// <summary>
         /// The function update the data in the cache memory by his key and new data.
         /// Converting the string key to Guid and try to find this specific key in the cache.
@@ -80,11 +78,10 @@ namespace Logic
         /// <param name="strKey"></param>
         /// <param name="newData"></param>
         /// <returns></returns>
-
         public bool Update(string strKey, object newData)
         {
             Guid key = string2Guid(strKey);
-            
+
             if (Cache.ContainsKey(key))
             {
                 Cache[key] = newData;
@@ -93,7 +90,7 @@ namespace Logic
 
             return false;
         }
-        
+
         /// <summary>
         /// The function remove the data by his key from the cache memory.
         /// Converting the string key to Guid and try to find this specific key in the cache.
@@ -102,7 +99,6 @@ namespace Logic
         /// </summary>
         /// <param name="strKey"></param>
         /// <returns></returns>
-
         public bool Delete(string strKey)
         {
             Guid key = string2Guid(strKey);
@@ -116,7 +112,7 @@ namespace Logic
 
             return false;
         }
-        
+
         /// <summary>
         /// This function is responsible for converting the key from string to Guid.
         /// </summary>
