@@ -18,7 +18,7 @@ namespace Unit_tests_for_logic
         }
 
         [TestMethod]
-        public void CrateAndReadTest()
+        public void CreateAndReadTest()
         {
             string key = cm.Create("{\"id\":12}");
             string key1 = cm.Create("aaa");
@@ -37,7 +37,7 @@ namespace Unit_tests_for_logic
         }
 
         [TestMethod]
-        public void CrateAndReadTest1()
+        public void CreateAndReadTest1()
         {
             string key = cm.Create("{\"id\":13}");
             string key1 = cm.Create("bbb");
