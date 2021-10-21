@@ -1,11 +1,11 @@
 ﻿using Logic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API
+namespace RestAPI.controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CacheAPI : Controller
+    public class CacheApi : Controller
     {
         /// <summary>
         /// Create one instance of the cache module class.
@@ -41,24 +41,30 @@ namespace API
 
         /// <summary>
         /// POST - this function responsible to save data in the cache memory.
-        /// This function get any type of data and calls to Create function with the data at cache module,
-        /// Create function save the data in the cache and return the new key for this data.
+        /// This function get key and data from the user and calls to Create function with the key and the data at cache module,
+        /// Create function save the data in the cache and return the key for this data.
         /// The function Post return HTTP code 201 (Created) and the URL + key.
         /// </summary>
+        /// <param name="key">it's key for added object</param>
         /// <param name="data"></param>
         /// <returns></returns>
         [HttpPost("cacheModuleRestApi/data")]
-        public ActionResult<object> Post(object data)
+        public ActionResult<object> Post(string key, object data)
         {
-            string key = cm.Create(data);
+            string validateKey = cm.Create(key, data);
 
-            return Created("cacheModuleRestApi/data/" + key, (object) key); // HTTP code 201 created.
+            if (validateKey == null)
+            {
+                return BadRequest(); // HTTP code 400 bad request.
+            }
+
+            return Created("cacheModuleRestApi/data/" + validateKey, validateKey); // HTTP code 201 created.
         }
 
         /// <summary>
         /// PUT - this function responsible to update the data in the cache memory by his specific key and new data.
         /// If the key is null this function return HTTP code 400 (Bad Request). 
-        /// This function calls to Update function with the key and the new data at cache module.
+        /// If not, this function calls to Update function with the key and the new data at cache module.
         /// The Update function looking for the old data by his key and update him by new data,
         /// and return ture or false if the action was succeeded.
         /// When we get ture this function return HTTP code 204 (No Content).
@@ -70,7 +76,7 @@ namespace API
         [HttpPut("cacheModuleRestApi/data/{key}")]
         public ActionResult Put(string key, object newData)
         {
-            if (key == null)
+            if (key == null || newData == null)
             {
                 return BadRequest(); // HTTP code 400 bad request.
             }
@@ -88,8 +94,8 @@ namespace API
         /// <summary>
         /// DELETE - this function responsible to remove data from the cache memory by his specific key.
         /// If the key is null this function return HTTP code 400 (Bad Request).
-        /// This function calls to Delete function with the key at cache module.
-        /// The function Delete at the cache remove the data if it finds it's key and return ture.
+        /// If not, this function calls to Delete function with the key at cache module.
+        /// The function Delete at the cache remove the data if it finds the key and return ture.
         /// When we get ture this function return HTTP code 204 (No Content).
         /// When we get false this function return HTTP code 404 (Not Found).
         /// </summary>

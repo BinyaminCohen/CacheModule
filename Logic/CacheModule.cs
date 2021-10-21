@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace Logic
@@ -7,15 +6,15 @@ namespace Logic
     public class CacheModule
     {
         /// <summary>
-        /// Data structure of type ConcurrentDictionary for simulate cache memory ,
+        /// Data structure of type ConcurrentDictionary for simulate cache memory,
         /// and solve Multi-trade problem. 
         /// </summary>
-        private ConcurrentDictionary<Guid, object> Cache = new ConcurrentDictionary<Guid, object>();
+        private ConcurrentDictionary<string, object> Cache = new ConcurrentDictionary<string, object>();
 
         private static CacheModule Instance = new CacheModule();
 
         /// <summary>
-        /// Signal tone instance of this class to provide only one cache memory.
+        /// Single-tone instance of this class to provide only one cache memory.
         /// </summary>
         private CacheModule()
         {
@@ -27,38 +26,40 @@ namespace Logic
         }
 
         /// <summary>
-        /// The function receives any kind of data  and checks whether it is not null,
-        /// If not the function generates a Guid key (to create a very large amount of keys for many objects),
-        /// and puts in the dictionary (cache memory) the data in place of the specific key created,
-        /// and return the key as a string.
+        /// The function receives key and data and checks whether the key or the data are not null,
+        /// If not, the function checks if the key already exist.
+        /// If not, the function puts in the dictionary (cache memory) the data in place of the specific key 
+        /// and return the key.
         /// </summary>
+        /// <param name="key">user key</param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public string Create(object data)
+        public string Create(string key, object data)
         {
-            if (data == null)
+            if (key == null || data == null)
             {
                 return null;
             }
 
-            Guid key = Guid.NewGuid();
+            if (Cache.ContainsKey(key))
+            {
+                return null;
+            }
 
             Cache[key] = data;
 
-            return key.ToString();
+            return key;
         }
 
         /// <summary>
         /// The function read the data from the cache memory by his key.
-        /// Converting the string key to Guid and try to find this specific key in the cache,
+        /// The function tries to find the specific key in the cache,
         /// Once it's found the function return the data.
         /// </summary>
-        /// <param name="strKey"></param>
+        /// <param name="key"></param>
         /// <returns></returns>
-        public object Read(string strKey)
+        public object Read(string key)
         {
-            Guid key = string2Guid(strKey);
-
             if (Cache.ContainsKey(key))
             {
                 object data = Cache[key];
@@ -71,17 +72,15 @@ namespace Logic
 
         /// <summary>
         /// The function update the data in the cache memory by his key and new data.
-        /// Converting the string key to Guid and try to find this specific key in the cache.
+        /// The function tries to find the specific key in the cache,
         /// Once it's found the function replaces the old data with the new one.
         /// and return true if the action was succeeded or false if not. 
         /// </summary>
-        /// <param name="strKey"></param>
+        /// <param name="key"></param>
         /// <param name="newData"></param>
         /// <returns></returns>
-        public bool Update(string strKey, object newData)
+        public bool Update(string key, object newData)
         {
-            Guid key = string2Guid(strKey);
-
             if (Cache.ContainsKey(key))
             {
                 Cache[key] = newData;
@@ -93,16 +92,14 @@ namespace Logic
 
         /// <summary>
         /// The function remove the data by his key from the cache memory.
-        /// Converting the string key to Guid and try to find this specific key in the cache.
+        /// The function tries to find the specific key in the cache,
         /// Once it's found the function delete the specific data from the cache,
         /// and return true if the action was succeeded or false if not. 
         /// </summary>
-        /// <param name="strKey"></param>
+        /// <param name="key"></param>
         /// <returns></returns>
-        public bool Delete(string strKey)
+        public bool Delete(string key)
         {
-            Guid key = string2Guid(strKey);
-
             if (Cache.ContainsKey(key))
             {
                 object removedItem;
@@ -111,25 +108,6 @@ namespace Logic
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// This function is responsible for converting the key from string to Guid.
-        /// </summary>
-        /// <param name="strKey"></param>
-        /// <returns></returns>
-        private Guid string2Guid(string strKey)
-        {
-            Guid key = Guid.Empty;
-            try
-            {
-                key = Guid.Parse(strKey);
-                return key;
-            }
-            catch (System.FormatException ex)
-            {
-                return key;
-            }
         }
     }
 }
